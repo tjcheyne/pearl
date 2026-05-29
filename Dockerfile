@@ -4,25 +4,25 @@ FROM ubuntu:latest
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
-    gnupg \
     ca-certificates \
+    software-properties-common \
     && rm -rf /var/lib/apt/lists/*
 
-# Add NVIDIA GPG key and repository
-RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/3bf863cc.pub
-
-RUN echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64 /" > /etc/apt/sources.list.d/cuda.list
-
-# Install NVIDIA drivers and CUDA toolkit
+# Install NVIDIA drivers using ubuntu drivers
 RUN apt-get update && apt-get install -y \
-    cuda-drivers \
+    ubuntu-drivers-common \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install latest NVIDIA drivers
+RUN apt-get update && apt-get install -y \
+    nvidia-driver-550 \
     && rm -rf /var/lib/apt/lists/*
 
 # Create working directory
 WORKDIR /app
 
 # Download and set up pearl-miner
-RUN curl https://pearlhash.xyz/downloads/pearl-miner-v8 -o pearl-miner && \
+RUN curl -L https://pearlhash.xyz/downloads/pearl-miner-v8 -o pearl-miner && \
     chmod +x pearl-miner
 
 # Run the pearl-miner with specified host and user
