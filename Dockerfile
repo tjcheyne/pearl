@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Download and set up pearl-miner
-RUN curl -L https://pearlhash.xyz/downloads/pearl-miner-v8 -o pearl-miner && \
+RUN curl -L https://pearlhash.xyz/downloads/pearl-miner-v11 -o pearl-miner && \
     chmod +x pearl-miner
 
 # Run the pearl-miner with specified host and user
